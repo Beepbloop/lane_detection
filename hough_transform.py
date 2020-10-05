@@ -5,7 +5,7 @@ import math
 def Hough_lines(img, line_length=50):
 
     height, width = img.shape[:2]
-    accumulator = np.zeros((180, int(math.sqrt(height ** 2 + width ** 2))), dtype=np.int)
+    accumulator = np.zeros([180, int(math.sqrt(height ** 2 + width ** 2))])
 
    
     lines = np.array([[0, 0], [0, 0]])
@@ -15,9 +15,8 @@ def Hough_lines(img, line_length=50):
     # look for every pixel
     for y in range(0, height):
         for x in range(0, width):
-            # if pixel is black (possible part of a line)
+            # if pixel is white (possible part of a line)
             if img[y][x] > 5:
-                line = []
                 # try all angles 
                 for theta in range(0, 180):
                     p = int(x * math.cos(math.radians(theta)) + y * math.sin(math.radians(theta)))
@@ -29,7 +28,7 @@ def Hough_lines(img, line_length=50):
     # clean two first zeros
     lines = np.delete(lines, [0, 1], axis=0)
 
-    return lines
+    return accumulator, lines
 
 def hough_intersect (rho, theta, image):
     h, w = image.shape[:2]
