@@ -1,0 +1,14 @@
+*.mov
+*.MOV
+*.png
+*.PNG
+*.mp4
+*.MP4
+*.jpg
+*.JPG
+*.csv
+*.CSV
+*.zip
+__pycache__/
+.ipynb_checkpoints/
+Lane_Parameters/
