@@ -68,6 +68,7 @@ orig_img = np.array(pil_im)
 plt.imshow(orig_img)
 plt.axis('off')
 plt.show()
+print('Original image')
 
 #Convert to grayscale
 im = rgb2gray(orig_img)
@@ -78,6 +79,7 @@ im = rgb2gray(orig_img)
 plt.imshow(im, cmap='gray')
 plt.axis('off')
 plt.show()
+print('Grayscale conversion complete')
 
 # Rohit's Otsu's Implementation
 def otsu_thresh(input_im):          
@@ -126,7 +128,7 @@ kernel_shape_col = 5
 
 kernel = np.ones((kernel_shape_row, kernel_shape_col))/(kernel_shape_row * kernel_shape_col)
 mag_smooth = np.zeros((rows,cols))
-print(kernel.shape)
+print(f'Kernel size for smoothing: {kernel.shape}')
 
 #pad with zeros on the border for full blurring of image
 padded_gray = np.zeros((rows + kernel_shape_row - 1, cols + kernel_shape_col - 1))
@@ -135,16 +137,17 @@ index_last_row = (int) (rows + ((kernel_shape_row - 1)/2))
 index_1_col = (int) ((kernel_shape_col - 1)/2)
 index_last_col = (int) (cols + ((kernel_shape_col - 1)/2))
 padded_gray[index_1_row:index_last_row, index_1_col:index_last_col] = im
-print(padded_gray.shape)
+#print(padded_gray.shape)
 
 for x in range(rows):
     for y in range(cols):
         mag_smooth[x][y] = (kernel * padded_gray[x:x+kernel_shape_row, y:y+kernel_shape_col]).sum()     
         
-print(mag_smooth.shape)
+#print(mag_smooth.shape)
 plt.imshow(mag_smooth, cmap='gray')
 plt.axis('off')
 plt.show()
+print('Smoothed image')
 
 # Tharm's Sobel Edge Detector
 ## Implementing sobel edge detector
@@ -153,7 +156,7 @@ Gy = [[-1, -2, -1], [0, 0, 0], [1, 2, 1]]
 
 mag_G = np.zeros((rows,cols))
 #mag_G_thresh = np.zeros((rows,cols))
-print(mag_G.shape)
+#print(mag_G.shape)
 
 for i in range(1, rows - 1):
     for j in range(1, cols - 1):
@@ -161,26 +164,28 @@ for i in range(1, rows - 1):
         sumy = (Gy * mag_smooth[i-1:i+2, j-1:j+2]).sum()
         mag_G[i][j] = np.sqrt(sumx**2 + sumy**2)
         
-print('finished making new image')
-print(mag_G.shape)
+print('Edge Detection complete')
+#print(mag_G.shape)
 plt.imshow(mag_G, cmap='gray')
 plt.axis('off')
 plt.show()
 
 #Cropping
 # Own implementation of cropped image
-plt.imshow(mag_G, cmap='gray')
-plt.axis('off')
-plt.show()
+#plt.imshow(mag_G, cmap='gray')
+#plt.axis('off')
+#plt.show()
 mask = np.zeros_like(mag_G)
 mask = fillMask(mask)
 plt.imshow(mask, cmap='gray')
 plt.axis('off')
 plt.show()
+print('Empty mask')
 cropped_im = apply_mask(mag_G, mask)
 plt.imshow(cropped_im, cmap='gray')
 plt.axis('off')
 plt.show()
+print('Image cropped')
 
 #Only threshold cropped section
 cropped_part = []
@@ -199,7 +204,9 @@ for x, row in enumerate(cropped_im):
             thresh_im[x][y] = 0
             
 plt.imshow(thresh_im, cmap="gray")
+plt.axis('off')
 plt.show()
+print('Thresholding complete')
 
 #Histogram
 maxValue = int(np.amax(cropped_im)) + 1
@@ -401,6 +408,7 @@ for coeff in neg_lines:
     cv.line(cleaned_lines_img, (100, int(y1)), (w - 100, int(y2)), (255,0,0))
 
 fig = plt.imshow(cleaned_lines_img)
+plt.axis('off')
 plt.show()
 
 # Compute Average Lines
@@ -433,6 +441,7 @@ y2 = neg_m * (w - 100) + neg_b
 cv.line(averaged_lines_img, (100, int(y1)), (w - 100, int(y2)), (255,0,0))
 
 fig = plt.imshow(averaged_lines_img)
+plt.axis('off')
 plt.show()
 
 # Compute Vanishing Point
@@ -450,6 +459,7 @@ y2 = neg_m * 100 + neg_b
 cv.line(vanished_img, (100, int(y2)), (int(C[0]), int(C[1])), (255,0,0))
 
 fig = plt.imshow(vanished_img)
+plt.axis('off')
 plt.show()
 
 #Color Detection
@@ -489,6 +499,7 @@ plt.imshow(orig_img)
 plt.title('Resized color image')
 plt.axis('off')
 plt.show()
+print('Original image')
 
 rows = orig_img.shape[0]
 cols = orig_img.shape[1]
@@ -499,11 +510,13 @@ plt.title('Color mask')
 plt.axis('off')
 plt.show
 
+
 croppedImageColor = apply_mask(orig_img, mask)
 plt.imshow(croppedImageColor)
 plt.title('Color mask applied')
 plt.axis('off')
 plt.show()
+print('Color cropping complete')
 
 #RGB to HSV
 def RGB_to_HSV(rgb):
@@ -558,16 +571,19 @@ plt.imshow(hueImg, cmap = 'hsv')
 plt.title("Hue channel")
 plt.axis('off')
 plt.show()
+print('Hue extraction complete')
 
 plt.imshow(satImg)
 plt.title("Saturation channel")
 plt.axis('off')
 plt.show()
+print('Saturation extraction complete')
 
 plt.imshow(valImg)
 plt.title("Value channel")
 plt.axis('off')
 plt.show()
+print('Value extraction complete')
 
 #Histogram HSV
 #use only the pixels that are both in the cropped section and on the lines
@@ -577,7 +593,7 @@ for y in range(rows):
         if (colorMask[y][x][0] != 0): #unmasked region
             yLine1 = int(neg_m * x + neg_b) #find lane line y value corresponding to the x value for the left lane line
             yLine2 = int(pos_m * x + pos_b) #find lane line y value corresponding to the x value for the right lane line
-            if ((y == yLine1) or (y == yLine2)): #pixel on line
+            if ((y == yLine1) or (y == yLine1 + 1) or (y == yLine1 - 1) or (y == yLine2) or (y == yLine2 + 1) or (y == yLine2 - 1)): #pixel on line plus or minus above and below pixel
                     croppedHue.append(hueImg[y][x])
 croppedHue = np.array(croppedHue)
 
@@ -590,7 +606,7 @@ plt.title("Hue Histogram")
 plt.xlabel("Hue (degrees)")
 plt.ylabel("pixels")
 plt.xlim([0, maxHueValue])
-plt.ylim([0, 30]) # must be changed manually after generating once for better visual analysis
+plt.ylim([0, 100]) # must be changed manually after generating once for better visual analysis
 
 plt.plot(hueBinEdges[0:-1], hueHistogram)  # <- or here
 plt.show()
@@ -602,7 +618,7 @@ for y in range(rows):
         if (colorMask[y][x][0] != 0): #unmasked region
             yLine1 = int(neg_m * x + neg_b) #find lane line y value corresponding to the x value for the left lane line
             yLine2 = int(pos_m * x + pos_b) #find lane line y value corresponding to the x value for the right lane line
-            if ((y == yLine1) or (y == yLine2)): #pixel on line
+            if ((y == yLine1) or (y == yLine1 + 1) or (y == yLine1 - 1) or (y == yLine2) or (y == yLine2 + 1) or (y == yLine2 - 1)): #pixel on line plus or minus above and below pixel
                 croppedSat.append(satImg[y][x])
 croppedSat = np.array(croppedSat)
 
@@ -615,7 +631,7 @@ plt.title("Saturation Histogram")
 plt.xlabel("Saturation (permille)")
 plt.ylabel("pixels")
 plt.xlim([0, maxSatValue])
-plt.ylim([0, 10]) # must be changed manually after generating once for better visual analysis
+plt.ylim([0, 30]) # must be changed manually after generating once for better visual analysis
 
 plt.plot(satBinEdges[0:-1], satHistogram)  # <- or here
 plt.show()
@@ -627,7 +643,7 @@ for y in range(rows):
         if (colorMask[y][x][0] != 0): #unmasked region
             yLine1 = int(neg_m * x + neg_b) #find lane line y value corresponding to the x value for the left lane line
             yLine2 = int(pos_m * x + pos_b) #find lane line y value corresponding to the x value for the right lane line
-            if ((y == yLine1) or (y == yLine2)): #pixel on line
+            if ((y == yLine1) or (y == yLine1 + 1) or (y == yLine1 - 1) or (y == yLine2) or (y == yLine2 + 1) or (y == yLine2 - 1)): #pixel on line plus or minus above and below pixel
                 croppedVal.append(valImg[y][x])
 croppedVal = np.array(croppedVal)
 
@@ -640,11 +656,12 @@ plt.title("Value Histogram")
 plt.xlabel("Value (permille)")
 plt.ylabel("pixels")
 plt.xlim([0, maxValValue])
-plt.ylim([0, 20]) # must be changed manually after generating once for better visual analysis
+plt.ylim([0, 60]) # must be changed manually after generating once for better visual analysis
 
 plt.plot(valBinEdges[0:-1], valHistogram)  # <- or here
 plt.show()
 
+'''
 #Temporary thresholding for research purposes
 for y in range(rows):
     for x in range(cols):
@@ -657,17 +674,20 @@ plt.show
 
 plt.imshow(valImg)
 plt.show
+'''
 
 #Detection
 def getColor(hue, saturation, value):
-    if value < 500:
+    if value < 700:
         return "darkColor"
-    elif saturation <= 200:
+    elif saturation <= 350:
         return "white"
-    elif hue <= 300: #most pixels have a very low hue, so this must be fixed since it's counting the pavement
+    elif hue <= 30: #most pixels have a very low hue, so this must be fixed since it's counting the pavement
         return "red"
-    elif hue <= 800:
+    elif hue <= 50:
         return "yellow"
+    else:
+        return "other"
 
 #currently can only detect yellow and white since it treats the unmarked pavement as red which will be fixed later, needs to be tested with multiple images
 
@@ -675,27 +695,31 @@ def getColor(hue, saturation, value):
 yellows = 0
 whites = 0
 reds = 0
+darks = 0
+others = 0
 
 for y in range(rows):
     for x in range(cols):
         if (colorMask[y][x][0] != 0): #unmasked region
             yLine1 = int(neg_m * x + neg_b) #find lane line y value corresponding to the x value for the left lane line
             yLine2 = int(pos_m * x + pos_b) #find lane line y value corresponding to the x value for the right lane line
-            if ((y == yLine1) or (y == yLine2)): #pixel on line
+            if ((y == yLine1) or (y == yLine1 + 1) or (y == yLine1 - 1) or (y == yLine2) or (y == yLine2 + 1) or (y == yLine2 - 1)): #pixel on line plus or minus above and below pixel
                 pixelColor = getColor(hueImg[y][x], satImg[y][x], valImg[y][x]) #get the color (string) of that pixel
                 if pixelColor == "yellow":
                     yellows += 1
                 elif pixelColor == "white":
                     whites += 1
-                #elif pixelColor == "red":
-                    #reds += 1
+                elif pixelColor == "darkColor":
+                    darks += 1
+                elif pixelColor == "red":
+                    reds += 1
+                else:
+                    others += 1
 
 #decide the most dominant color
-if yellows == max(yellows, whites, reds):
+if yellows == max(yellows, whites):
     laneColor = "yellow"
-elif reds == max(yellows, whites, reds):
-    laneColor = "red"
-elif whites == max(yellows, whites, reds):
+elif whites == max(yellows, whites):
     laneColor = "white"
 
 
@@ -704,9 +728,7 @@ elif whites == max(yellows, whites, reds):
 #print(f'{croppedImageColor[yTest][xTest][0]} {croppedImageColor[yTest][xTest][1]} {croppedImageColor[yTest][xTest][2]}')
 print(f'There are {yellows} yellow pixels on the lane lines in the mask.')
 print(f'There are {whites} white pixels on the lane lines in the mask.')
-#print(f'There are {reds} red pixels on the lane lines in the mask.')
+print(f'There are {reds} red pixels on the lane lines in the mask.')
+print(f'There are {darks} dark pixels on the lane lines in the mask.')
+print(f'There are {others} pixels of other colors on the lane lines in the mask.\n')
 print(f'The color of the lane markings is {laneColor}.')
-
-plt.imshow(croppedImageColor)
-plt.axis('on')
-plt.show
