@@ -43,11 +43,47 @@ def fillMask(mask):
                 
     return mask
 
+def TempMask(mask):
+    h, w = mask.shape
+    h = h + 90
+    print(h)
+    print(w)
+    middle = (int(h/2), int(w/2))
+    print(middle)
+    for x, row in enumerate(mask):
+        for y, col in enumerate(row):
+            # Applying equations to left_bound and right_bound
+            left_bound = ((h - x) * middle[1] / middle[0]) - 70
+            right_bound = (x * middle[1] / middle[0]) + 100
+            if y > left_bound and y < right_bound and x <= 450:
+                mask[x][y] = 255
+                
+    return mask
+
+def squareMask(mask):
+    h, w = mask.shape
+    middle = (int(h/2), int(w/2))
+    for x in range(h):
+        for y in range(w):
+            left_bound = 420
+            right_bound = 500
+            if y > left_bound and y < right_bound:
+                mask[x][y] = 255
+                
+    return mask
+
 # For each non-zero pixel in mask, the corresponding pixel on image is kept (the rest of the pixels in mask is discarded)
 def apply_mask(image, mask):
     for x, row in enumerate(mask):
         for y, col in enumerate(row):
             if mask[x][y] != 255:
+                image[x][y] = 0
+    return image
+
+def reverse_apply_mask(image, mask):
+    for x, row in enumerate(mask):
+        for y, col in enumerate(row):
+            if mask[x][y] == 255:
                 image[x][y] = 0
     return image
 
@@ -186,6 +222,27 @@ plt.imshow(cropped_im, cmap='gray')
 plt.axis('off')
 plt.show()
 print('Image cropped')
+
+mask2= np.zeros_like(mag_G)
+mask2 = TempMask(mask2)
+plt.imshow(mask2, cmap='gray')
+plt.axis('off')
+plt.show()
+cropped_im = apply_mask(cropped_im, mask2)
+plt.imshow(cropped_im, cmap='gray')
+plt.axis('off')
+plt.show()
+
+#Cuts unnecessary edges like tunnels, center lane markings etc.
+mask3= np.zeros_like(mag_G)
+mask3 = squareMask(mask3)
+plt.imshow(mask3, cmap='gray')
+plt.axis('off')
+plt.show()
+cropped_im = reverse_apply_mask(cropped_im, mask3)
+plt.imshow(cropped_im, cmap='gray')
+plt.axis('off')
+plt.show()
 
 #Only threshold cropped section
 cropped_part = []
