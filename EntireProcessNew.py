@@ -90,7 +90,7 @@ def reverse_apply_mask(image, mask):
 # Manual version takes a long time
 # Read image from JPEG file
 # Convert to grayscale
-pil_im = Image.open("lane_sample1.jpeg")
+pil_im = Image.open("lane_sample9.jpg")
 orig = np.array(pil_im)
 # plt.imshow(orig)
 # plt.show()
@@ -619,11 +619,6 @@ hueImg = imHSV[:,:,0]
 satImg = imHSV[:,:,1]
 valImg = imHSV[:,:,2]
 
-plt.imshow(croppedImageColor)
-plt.title("RGB image (original resized with mask)")
-plt.axis('off')
-plt.show()
-
 plt.imshow(hueImg, cmap = 'hsv')
 plt.title("Hue channel")
 plt.axis('off')
@@ -748,44 +743,74 @@ def getColor(hue, saturation, value):
 
 #currently can only detect yellow and white since it treats the unmarked pavement as red which will be fixed later, needs to be tested with multiple images
 
-#number of pixels with that color
-yellows = 0
-whites = 0
-reds = 0
-darks = 0
-others = 0
+def get_lane_color(rows, cols, colorMask, slope, y_intercept, hueImg, satImg, valImg, side):
+    #number of pixels with that color
+    yellows = 0
+    whites = 0
+    reds = 0
+    darks = 0
+    others = 0
+    
+    for y in range(rows):
+        for x in range(cols):
+            if (colorMask[y][x][0] != 0): #unmasked region
+                yLine = int(slope * x + y_intercept) #find lane line y value corresponding to the x value for the lane line
+                if ((y == yLine) or (y == yLine + 1) or (y == yLine - 1)): #pixel on line plus or minus above and below pixel
+                    pixelColor = getColor(hueImg[y][x], satImg[y][x], valImg[y][x]) #get the color (string) of that pixel
+                    if pixelColor == "yellow":
+                        yellows += 1
+                    elif pixelColor == "white":
+                        whites += 1
+                    elif pixelColor == "darkColor":
+                        darks += 1
+                    elif pixelColor == "red":
+                        reds += 1
+                    else:
+                        others += 1
 
+    #decide the most dominant color
+    if yellows == max(yellows, whites):
+        laneColor = "yellow"
+    elif whites == max(yellows, whites):
+        laneColor = "white"
+
+
+    #xTest = 330
+    #yTest = int(m1 * xTest + c1)
+    #print(f'{croppedImageColor[yTest][xTest][0]} {croppedImageColor[yTest][xTest][1]} {croppedImageColor[yTest][xTest][2]}')
+    print(f'There are {yellows} yellow pixels on the {side} lane line in the mask.')
+    print(f'There are {whites} white pixels on the {side} lane line in the mask.')
+    print(f'There are {reds} red pixels on the {side} lane line in the mask.')
+    print(f'There are {darks} dark pixels on the {side} lane line in the mask.')
+    print(f'There are {others} pixels of other colors on the {side} lane line in the mask.\n')
+    print(f'The color of the {side} lane marking is {laneColor}.\n')
+
+get_lane_color(rows, cols, colorMask, neg_m, neg_b, hueImg, satImg, valImg, "left")
+get_lane_color(rows, cols, colorMask, pos_m, pos_b, hueImg, satImg, valImg, "right")
+
+#display image with all whites turned to pure white, all yellows turned to pure yellow, and all other colors turned to pure black
+justWhitesAndYellows = np.zeros((rows,cols,3)) #color image
 for y in range(rows):
     for x in range(cols):
-        if (colorMask[y][x][0] != 0): #unmasked region
-            yLine1 = int(neg_m * x + neg_b) #find lane line y value corresponding to the x value for the left lane line
-            yLine2 = int(pos_m * x + pos_b) #find lane line y value corresponding to the x value for the right lane line
-            if ((y == yLine1) or (y == yLine1 + 1) or (y == yLine1 - 1) or (y == yLine2) or (y == yLine2 + 1) or (y == yLine2 - 1)): #pixel on line plus or minus above and below pixel
-                pixelColor = getColor(hueImg[y][x], satImg[y][x], valImg[y][x]) #get the color (string) of that pixel
-                if pixelColor == "yellow":
-                    yellows += 1
-                elif pixelColor == "white":
-                    whites += 1
-                elif pixelColor == "darkColor":
-                    darks += 1
-                elif pixelColor == "red":
-                    reds += 1
-                else:
-                    others += 1
+        pixelColor = getColor(hueImg[y][x], satImg[y][x], valImg[y][x]) #get the color (string) of that pixel
+        if pixelColor == "yellow":
+            #yellow = RGB: 255, 255, 0
+            justWhitesAndYellows[y][x][0] = 255 #red
+            justWhitesAndYellows[y][x][1] = 255 #green
+            justWhitesAndYellows[y][x][2] = 0 #blue
+        elif pixelColor == "white":
+            #white = RGB: 255, 255, 255
+            justWhitesAndYellows[y][x][0] = 255 #red
+            justWhitesAndYellows[y][x][1] = 255 #green
+            justWhitesAndYellows[y][x][2] = 255 #blue
+        else:
+            #black = RGB: 0, 0, 0
+            justWhitesAndYellows[y][x][0] = 0 #red
+            justWhitesAndYellows[y][x][1] = 0 #green
+            justWhitesAndYellows[y][x][2] = 0 #blue
 
-#decide the most dominant color
-if yellows == max(yellows, whites):
-    laneColor = "yellow"
-elif whites == max(yellows, whites):
-    laneColor = "white"
-
-
-#xTest = 330
-#yTest = int(m1 * xTest + c1)
-#print(f'{croppedImageColor[yTest][xTest][0]} {croppedImageColor[yTest][xTest][1]} {croppedImageColor[yTest][xTest][2]}')
-print(f'There are {yellows} yellow pixels on the lane lines in the mask.')
-print(f'There are {whites} white pixels on the lane lines in the mask.')
-print(f'There are {reds} red pixels on the lane lines in the mask.')
-print(f'There are {darks} dark pixels on the lane lines in the mask.')
-print(f'There are {others} pixels of other colors on the lane lines in the mask.\n')
-print(f'The color of the lane markings is {laneColor}.')
+plt.imshow(justWhitesAndYellows)
+plt.title("Just Whites and Yellows")
+plt.axis('off')
+plt.show
+print('\nImage shown with just whites and yellows')
