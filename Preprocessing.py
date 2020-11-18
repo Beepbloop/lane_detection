@@ -11,7 +11,7 @@ def resize(input_im, height):
     resized = input_im.resize((width , height))
     return np.array(resized)
 
-def rgb2gray(rgb):
+def rgb_to_gray(rgb):
     """
     Covert RGB image in to gray
     rgb - 3-D numpy array.
