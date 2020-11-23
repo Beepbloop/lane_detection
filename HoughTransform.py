@@ -35,6 +35,7 @@ def hough_lines(img, line_length=50):
 def hough_intersect(rho, theta, image):
     h, w = image.shape[:2]
     out = []
+    line_info = []
     theta = math.radians(theta)
     intersect = [int(round(rho / math.sin(theta))), int(round((rho - w * math.cos(theta)) / math.sin(theta))), int(round(rho / math.cos(theta))),
                  int(round((rho - h * math.sin(theta)) / math.cos(theta)))]
@@ -54,5 +55,8 @@ def hough_intersect(rho, theta, image):
 
     out.append(m)
     out.append(b)
+
+    line_info.append(m)
+    line_info.append(b)
 
     return out

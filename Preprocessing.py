@@ -48,3 +48,45 @@ def fill_mask(image):
             if y > left_bound and y < right_bound and x <= 400:
                 mask[x][y] = 255
     return mask
+
+def TempMask(image):
+    mask = np.zeros_like(image)
+    h, w = mask.shape
+    bottom_left = (h, 0)
+    middle = (int(h/2), int(w/2))
+    bottom_right = (h, w)
+    h = h + 90
+    middle = (int(h/2), int(w/2))
+    print(middle)
+    for x, row in enumerate(mask):
+        for y, col in enumerate(row):
+            # Applying equations to left_bound and right_bound
+            left_bound = ((h - x) * middle[1] / middle[0]) - 70
+            right_bound = (x * middle[1] / middle[0]) + 100
+            if y > left_bound and y < right_bound and x <= 450:
+                mask[x][y] = 255
+                
+    return mask
+
+def squareMask(image):
+    mask = np.zeros_like(image)
+    h, w = mask.shape
+    bottom_left = (h, 0)
+    middle = (int(h/2), int(w/2))
+    bottom_right = (h, w)
+    middle = (int(h/2), int(w/2))
+    for x in range(h):
+        for y in range(w):
+            left_bound = 420
+            right_bound = 500
+            if y > left_bound and y < right_bound:
+                mask[x][y] = 255
+                
+    return mask
+
+def reverse_apply_mask(image, mask):
+    for x, row in enumerate(mask):
+        for y, col in enumerate(row):
+            if mask[x][y] == 255:
+                image[x][y] = 0
+    return image
