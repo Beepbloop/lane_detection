@@ -63,12 +63,54 @@ def rgb_to_hsv(rgb):
 
     return hsvImage
 
-def get_color(hue, saturation, value):
-    if value < 500:
+def get_color(hue, saturation, value, valueParameter):
+    if value < valueParameter:
         return "darkColor"
-    elif saturation <= 200:
+    elif saturation <= 350:
         return "white"
-    elif hue <= 300: #most pixels have a very low hue, so this must be fixed since it's counting the pavement
+    elif hue <= 30: #most pixels have a very low hue, so this must be fixed since it's counting the pavement
         return "red"
-    elif hue <= 800:
+    elif hue <= 50:
         return "yellow"
+
+def get_lane_color(rows, cols, colorMask, slope, y_intercept, hueImg, satImg, valImg, side, valueParameter):
+    #number of pixels with that color
+    yellows = 0
+    whites = 0
+    reds = 0
+    darks = 0
+    others = 0
+
+    for y in range(rows):
+        for x in range(cols):
+            if (colorMask[y][x][0] != 0): #unmasked region
+                yLine = int(slope * x + y_intercept) #find lane line y value corresponding to the x value for the lane line
+                if ((y == yLine) or (y == yLine + 1) or (y == yLine - 1)): #pixel on line plus or minus above and below pixel
+                    pixelColor = get_color(hueImg[y][x], satImg[y][x], valImg[y][x], valueParameter) #get the color (string) of that pixel
+                    if pixelColor == "yellow":
+                        yellows += 1
+                    elif pixelColor == "white":
+                        whites += 1
+                    elif pixelColor == "darkColor":
+                        darks += 1
+                    elif pixelColor == "red":
+                        reds += 1
+                    else:
+                        others += 1
+
+    #decide the most dominant color
+    if yellows == max(yellows, whites):
+        laneColor = "yellow"
+    elif whites == max(yellows, whites):
+        laneColor = "white"
+
+
+    #xTest = 330
+    #yTest = int(m1 * xTest + c1)
+    #print(f'{croppedImageColor[yTest][xTest][0]} {croppedImageColor[yTest][xTest][1]} {croppedImageColor[yTest][xTest][2]}')
+    print(f'There are {yellows} yellow pixels on the {side} lane line in the mask.')
+    print(f'There are {whites} white pixels on the {side} lane line in the mask.')
+    print(f'There are {reds} red pixels on the {side} lane line in the mask.')
+    print(f'There are {darks} dark pixels on the {side} lane line in the mask.')
+    print(f'There are {others} pixels of other colors on the {side} lane line in the mask.\n')
+    print(f'The color of the {side} lane marking is {laneColor}.\n')
