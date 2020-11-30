@@ -66,7 +66,7 @@ def rgb_to_hsv(rgb):
 def get_color(hue, saturation, value, valueParameter):
     if value < valueParameter:
         return "darkColor"
-    elif saturation <= 350:
+    elif saturation <= 400:
         return "white"
     elif hue <= 30: #most pixels have a very low hue, so this must be fixed since it's counting the pavement
         return "red"

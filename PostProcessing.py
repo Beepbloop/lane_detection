@@ -15,7 +15,7 @@ def group_contious(arr):
         i += 1
     return rtn_arr
 
-def double_peek_grouping(point_stack, bins=10):
+def double_peak_grouping(point_stack, bins=10):
 
     df = pd.DataFrame({'rho':point_stack[:,0], 'theta':point_stack[:,1]})
 
@@ -24,37 +24,37 @@ def double_peek_grouping(point_stack, bins=10):
     hist_theta, edges_theta = np.histogram(df['theta'].tolist(), bins=bins)
     cumsum_theta = np.cumsum(hist_theta)
 
-    rho_peeks = []
-    theta_peeks = []
+    rho_peaks = []
+    theta_peaks = []
 
     if hist_rho[0] != 0 and hist_rho[0] >= hist_rho[1]:
-        rho_peeks.append(0)
+        rho_peaks.append(0)
 
     if hist_rho[-1] != 0 and hist_rho[-1] >= hist_rho[-2]:
-        rho_peeks.append(len(hist_rho)-1)
+        rho_peaks.append(len(hist_rho)-1)
 
     if hist_theta[0] != 0 and hist_theta[0] >= hist_theta[1]:
-        theta_peeks.append(0)
+        theta_peaks.append(0)
 
     if hist_theta[-1] != 0 and hist_theta[-1] >= hist_theta[-2]:
-        theta_peeks.append(len(hist_theta)-1)
+        theta_peaks.append(len(hist_theta)-1)
 
     for i in range(1, len(hist_rho)-1):
         if hist_rho[i] != 0 and hist_rho[i] >= hist_rho[i-1] and hist_rho[i] >= hist_rho[i+1]:
-            rho_peeks.append(i)
+            rho_peaks.append(i)
         if hist_theta[i] != 0 and hist_theta[i] >= hist_theta[i-1] and hist_theta[i] >= hist_theta[i+1]:
-            theta_peeks.append(i)
+            theta_peaks.append(i)
 
-    rho_peeks = group_contious(rho_peeks)
-    theta_peeks = group_contious(theta_peeks)
+    rho_peaks = group_contious(rho_peaks)
+    theta_peaks = group_contious(theta_peaks)
 
     cleaned_point_stack = []
 
-    for rho_split in rho_peeks:
+    for rho_split in rho_peaks:
         rho_min, rho_max = edges_rho[rho_split[0]], edges_rho[rho_split[1]+1]
         matched_rho = df[df['rho'].between(rho_min, rho_max)]
 
-        for theta_split in theta_peeks:
+        for theta_split in theta_peaks:
             theta_min, theta_max = edges_theta[theta_split[0]], edges_theta[theta_split[1]+1]
 
             matched_rho_theta =  df[df['theta'].between(theta_min, theta_max)]
