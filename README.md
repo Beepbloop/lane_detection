@@ -85,11 +85,11 @@ Enter just the name of the image with the file extension but without the directo
 | yellow_lane_2.jpg | Contains a yellow lane |
 | dark_image.jpg | Average brightness is much lower than usual |
 
-   [Confluence page]: <https://wiki.itap.purdue.edu/display/wlxls5c201710/Lane+Detection+Team>
-   [Research Expo Presentation]: <https://youtu.be/nQXoo_AVG88>
+   [Confluence page]: <https://wiki.itap.purdue.edu/display/wlxls5c201710/Lane+Detection+Team
+   [Research Expo Presentation]: <https://youtu.be/nQXoo_AVG88
    [final paper]: <>
-   [pemail]: <mailto:pjagada@purdue.edu>
-   [temail]: <mailto:jlertviw@purdue.edu>
-   [lemail]: <mailto:liu2881@purdue.edu>
-   [bemail]: <mailto:bsukboon@purdue.edu>
-   [remail]: <mailto:rtokala@purdue.edu>
+   [pemail]: <mailto:pjagada@purdue.edu
+   [temail]: <mailto:jlertviw@purdue.edu
+   [lemail]: <mailto:liu2881@purdue.edu
+   [bemail]: <mailto:bsukboon@purdue.edu
+   [remail]: <mailto:rtokala@purdue.edu
