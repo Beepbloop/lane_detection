@@ -1,17 +1,24 @@
 # Lane_F20
-___
+
 Purdue University Vertically Integrated Projects
+
 Image Processing and Analysis: Professor Edward J. Delp, Professor Carla Zoltowski
+
 Lane Detection Team: Pranav Jagada, Tharm Lertviwatkul, Louis Liu, Ben Sukboontip, Rohit Tokala
 
+
 [Confluence page][]
+
 [Research Expo Presentation][]
+
 [Final paper][final paper]
+
 
 Abstract: *Lane detection is an integral part of any autonomous driving system. The most popular methods of lane detection rely on machine learning. The purpose of this project is to accurately detect lanes and their color without using machine learning principles. Specifically, we take images from the car’s dashcam and detect the left and right lane markings of the lane the car is in. The main method used to extract the lanes from the image is the Hough transform, which is a popular robust method for detecting lines in any image. To further improve the results, we employ various pre-processing and post-processing methods. A Sobel edge detector is used to extract the edges in the image before the region of interest is selected. We use Otsu’s thresholding to further extract the most prominent edges in the region of interest. Further masking is used to remove irrelevant information such as arrow marks on the road. After the Hough transform is applied, methods such as double peak averaging and a vanishing point calculation filter the output to the most essential information. To detect the color of the lanes, the RGB (Red, Green, Blue) image is converted to an HSV (Hue, Saturation, Value) image. The result is a process that, given a dashcam image, will detect straight lanes and their colors in perfect to moderate lighting conditions.*
 
+
 ## Contact Information
-___
+
 | Author | Email |
 | ------ | ------ |
 | Pranav Jagada | [pjagada@purdue.edu][pemail] |
@@ -21,7 +28,7 @@ ___
 | Rohit Tokala | [rtokala@purdue.edu][remail] |
 
 ## Requirements
-___
+
  - Python (terminal or IDE)
  - Python libraries:
     - cv2
@@ -35,7 +42,7 @@ ___
     - sklearn
 
 ## File Descriptions
-___
+
 | File name | Type | Description|
 | ------ | ------ | ------ |
 | EntireProcess.ipynb | execute | Run this file to see all the outputs in a notebook format |
@@ -50,18 +57,18 @@ ___
 | Sample images/ | dataset | Contains images to use as input |
 
 ## Block Diagram
-___
+
 ![Block Diagram](block_diagram.png)
 This block diagram shows the pipeline of the process from the input (sample image) to the two outputs: two lane lines with the vanishing point and the color of each lane.
 
 ## Execution
-___
 
 ### Notebook (EntireProcess.ipynb)
 - Restart and run the entire kernel
 - There will be a prompt for an input image
 - Enter just the name of the image with the file extension but without the directory
 - For example, type in "lane_sample1.jpeg" without the quotation marks
+
 ### Python file (EntireProcess.py)
 Run this:
 ```sh
@@ -70,7 +77,7 @@ $ EntireProcess.py
 Enter just the name of the image with the file extension but without the directory. For example, type in "lane_sample1.jpeg" without the quotation marks. All the images will show up one by one and the lane colors will be printed.
 
 ## Input images
-___
+
 | File | Notes |
 | ------ | ------ |
 |lane_sample1.jpeg| Jiqing Expressway Dataset image with tunnel |
