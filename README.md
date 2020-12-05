@@ -1,7 +1,5 @@
 # Lane_F20
-<<<<<<< HEAD
-### This is Louis Liu's branch for Fall 20 IPA Lane Detection Team
-=======
+
 
 Purdue University Vertically Integrated Projects
 
@@ -96,4 +94,3 @@ Enter just the name of the image with the file extension but without the directo
    [lemail]: <mailto:liu2881@purdue.edu
    [bemail]: <mailto:bsukboon@purdue.edu
    [remail]: <mailto:rtokala@purdue.edu
->>>>>>> master
