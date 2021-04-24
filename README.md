@@ -8,25 +8,25 @@ Image Processing and Analysis: Professor Edward J. Delp, Professor Carla Zoltows
 Lane Detection Team: Pranav Jagada, Tharm Lertviwatkul, Louis Liu, Ben Sukboontip, Rohit Tokala
 
 
-[Confluence page][]
+## Links
+[Confluence page](https://wiki.itap.purdue.edu/display/wlxls5c201710/Lane+Detection+Team)    
+[Research Expo Presentation](https://youtu.be/nQXoo_AVG88)    
+[final paper](https://drive.google.com/file/d/16nlipkVu5vi9Qq07f5nLAxtQgpCGnv7i/view?usp=sharing) 
 
-[Research Expo Presentation][]
 
-[Final paper][final paper]
-
-
-Abstract: *Lane detection is an integral part of any autonomous driving system. The most popular methods of lane detection rely on machine learning. The purpose of this project is to accurately detect lanes and their color without using machine learning principles. Specifically, we take images from the car’s dashcam and detect the left and right lane markings of the lane the car is in. The main method used to extract the lanes from the image is the Hough transform, which is a popular robust method for detecting lines in any image. To further improve the results, we employ various pre-processing and post-processing methods. A Sobel edge detector is used to extract the edges in the image before the region of interest is selected. We use Otsu’s thresholding to further extract the most prominent edges in the region of interest. Further masking is used to remove irrelevant information such as arrow marks on the road. After the Hough transform is applied, methods such as double peak averaging and a vanishing point calculation filter the output to the most essential information. To detect the color of the lanes, the RGB (Red, Green, Blue) image is converted to an HSV (Hue, Saturation, Value) image. The result is a process that, given a dashcam image, will detect straight lanes and their colors in perfect to moderate lighting conditions.*
+## Abstract
+  Lane detection is an integral part of any autonomous driving system. The most popular methods of lane detection rely on machine learning. The purpose of this project is to accurately detect lanes and their color without using machine learning principles. Specifically, we take images from the car’s dashcam and detect the left and right lane markings of the lane the car is in. The main method used to extract the lanes from the image is the Hough transform, which is a popular robust method for detecting lines in any image. To further improve the results, we employ various pre-processing and post-processing methods. A Sobel edge detector is used to extract the edges in the image before the region of interest is selected. We use Otsu’s thresholding to further extract the most prominent edges in the region of interest. Further masking is used to remove irrelevant information such as arrow marks on the road. After the Hough transform is applied, methods such as double peak averaging and a vanishing point calculation filter the output to the most essential information. To detect the color of the lanes, the RGB (Red, Green, Blue) image is converted to an HSV (Hue, Saturation, Value) image. The result is a process that, given a dashcam image, will detect straight lanes and their colors in perfect to moderate lighting conditions.*
 
 
 ## Contact Information
 
 | Author | Email |
 | ------ | ------ |
-| Pranav Jagada | [pjagada@purdue.edu][pemail] |
-| Tharm Lertviwatkul | [jlertviw@purdue.edu][temail] |
-| Louis Liu | [liu2881@purdue.edu][lemail] |
-| Ben Sukboontip | [bsukboon@purdue.edu][bemail] |
-| Rohit Tokala | [rtokala@purdue.edu][remail] |
+| Pranav Jagada | pjagada@purdue.edu |
+| Tharm Lertviwatkul | jlertviw@purdue.edu |
+| Louis Liu | liu2881@purdue.edu |
+| Ben Sukboontip | bsukboon@purdue.edu |
+| Rohit Tokala | rtokala@purdue.edu |
 
 ## Requirements
 
@@ -85,12 +85,3 @@ Enter just the name of the image with the file extension but without the directo
 | yellow_lane_1.jpeg | Contains a yellow lane |
 | yellow_lane_2.jpg | Contains a yellow lane |
 | dark_image.jpg | Average brightness is much lower than usual |
-
-   [Confluence page]: <https://wiki.itap.purdue.edu/display/wlxls5c201710/Lane+Detection+Team
-   [Research Expo Presentation]: <https://youtu.be/nQXoo_AVG88
-   [final paper]: <>
-   [pemail]: <mailto:pjagada@purdue.edu
-   [temail]: <mailto:jlertviw@purdue.edu
-   [lemail]: <mailto:liu2881@purdue.edu
-   [bemail]: <mailto:bsukboon@purdue.edu
-   [remail]: <mailto:rtokala@purdue.edu
